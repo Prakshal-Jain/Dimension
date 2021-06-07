@@ -77,8 +77,8 @@
                     var m = document.createElement('div'),
                     ss = document.styleSheets;
                     ss[0].insertRule('#' + idd + ' { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); border-radius: 50%; box-shadow: inset 0 0 ' + wh + 'px ' + wh / 4 + 'px black; background: rgba(0, 0, 0, 0.2); width: ' + String((rx * 2) + wh) + 'px; height: ' + String((ry * 2) + wh) + 'px; }', 1);
-                    ss[0].insertRule('.' + cls + '{ position: absolute; background: #4D4A4F; color: #ffffff; text-align: center; font-family: "Open Sans Condensed", sans-serif; border-radius: 50%; transition: transform 0.2s ease; width: ' + wh + 'px; height: ' + wh + 'px; line-height: ' + wh + 'px;}', 1);
-                    ss[0].insertRule('.' + cls + ':hover { transform: scale(1.2); cursor: pointer; background: rgba(229, 225, 230, 0.8); }', 1);
+                    ss[0].insertRule('.' + cls + '{ position: absolute; background: #4D4A4F; color: #ffffff; text-align: center; font-family: "Open Sans Condensed", sans-serif; border-radius: 50%; transition: transform 0.2s ease; font-weight: bold; width: ' + wh + 'px; height: ' + wh + 'px; line-height: ' + wh + 'px;}', 1);
+                    ss[0].insertRule('.' + cls + ':hover { transform: scale(1.2); cursor: pointer; background: rgba(229, 225, 230, 0.8); color: #000000; }', 1);
                     m.id = idd;
                     for (var i = 0; i < n; i++) {
                         var c = document.createElement('div');
@@ -93,6 +93,7 @@
                     }
                     document.body.appendChild(m);
                     document.getElementById(String(speaking)).style.background = "rgba(38, 237, 73, 0.8)";
+                    document.getElementById(String(speaking)).style.color = "#000000";
                     document.getElementById(String(speaking)).style.transform = "scale(1.2)";
                     document.getElementById("currentSpeaker").innerHTML = speaking;
                 }

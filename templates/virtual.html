@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}Virtual{% endblock %}
+{% block content %}
+<style>
+    body{
+        background-color: black;
+        background-size: 100%;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+    input[type=text]{
+        width: 50%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        border: 2px transparent;
+        font-size: large;
+        background-color: transparent;
+        color: white;
+        text-align: center;
+        border-bottom: 2px solid gray;
+        -webkit-transition: all .2s ease-out;
+        -moz-transition: all .2s ease-out;
+        -ms-transition: all .2s ease-out;
+        -o-transition: all .2s ease-out;
+        transition: all .2s ease-out
+    }
+    input[type=text]::placeholder{
+        color: white;
+    }
+    input[type=text]:focus{
+        outline: none;
+        border-bottom: 2px solid #38fd07;
+    }
+    input[type=text]:focus::placeholder{
+        color: gray;
+    }
+    .confirm{
+        font-size:30px;
+        color:white;
+        border: 2px solid white;
+        border-radius: 20px;
+        padding: 10px;
+        cursor: pointer;
+    }
+    .confirm:hover{
+        background-color: aliceblue;
+        color: black;
+    }
+</style>
+<div class="para" style="margin-top: 10%;">
+    <h3 class="megaHeading">Convert & merge your recordings into Spatial Audio.</h3>
+    <br/><br/><br/>
+    <h4>Enter the absolute address of audio recordings below:</h4>
+    <input type="text" id="addr" name="add" placeholder="Enter / paste address here..."><br/><br/>
+    <label class="confirm" onclick="sendAddress()">Convert&nbsp;&nbsp;<i class="fa fa-check-circle" style="font-size:30px;color:#38fd07"></i></label>
+</div>
+
+<script>
+    const URL1 = '/get-address'
+    const xhr1 = new XMLHttpRequest();
+    function sendAddress(){
+        address = document.getElementById("addr").value;
+        if(address == ""){
+            return
+        }
+        xhr1.open('POST', URL1);
+        xhr1.send(address);
+    }
+</script>
+{% endblock %}
