@@ -6,6 +6,7 @@
             body {
                 margin: 0 auto;
                 background: #28282B;
+                text-align: center;
             }
 
             select {
@@ -36,10 +37,34 @@
             .speaking{
                 background: rgba(229, 225, 230, 0.8);
             }
+
+            .styledButton{
+                padding: 10px;
+                background-color: transparent;
+                border: 2px solid #45a049;
+                border-radius: 10px;
+                font-weight: bold;
+                color: white;
+                cursor: pointer;
+                margin: 15px;
+            }
+            .styledButton:hover{
+                background-color: #45a049;
+                color: black;
+                -webkit-transition: all .2s ease-out;
+                -moz-transition: all .2s ease-out;
+                -ms-transition: all .2s ease-out;
+                -o-transition: all .2s ease-out;
+                transition: all .2s ease-out
+            }
         </style>
     </head>
     <body>
-        <h1 style="text-align: center; color: white;">Welcome Crew!</h1>
+        <h1 style="text-align: center; color: #ffffff;">Welcome Crew!</h1>
+        <h2 style="text-align: center; color: #A8A9AD;">Speaker: <label id="currentSpeaker"></label></h2>
+        <a onclick="startRec()" class="styledButton">Start Recording</a>
+        <a onclick="stopRec()" class="styledButton">Stop Recording</a>
+        <div id="seating"></div>
         <script type="text/javascript">
             /*
             Usage: Position.ellipse(n, rx, ry, so, wh, idd, cls, cw);
@@ -53,8 +78,12 @@
                 cls = className of divs;
                 cw = clockwise(true/false)
             */
-            const URL = '/get-speaker'
+            const URL = '/get-speaker';
             const xhr = new XMLHttpRequest();
+            const URL1 = '/start-recording';
+            const xhr1 = new XMLHttpRequest();
+            const URL2 = '/stop-recording';
+            const xhr2 = new XMLHttpRequest();
             speaking = 1;
             var angles = []
             function clickedPerson(event){
@@ -65,6 +94,8 @@
                     xhr.send(JSON.stringify(angles[sender-1]));
                     document.getElementById(String(speaking)).style.background = "#4D4A4F";
                     document.getElementById(String(speaking)).style.transform = "scale(1)";
+                    document.getElementById(String(speaking)).style.color = "#ffffff";
+                    document.getElementById(curr_speaker).style.color = "#000000";
                     document.getElementById(curr_speaker).style.background = "rgba(38, 237, 73, 0.8)";
                     document.getElementById(curr_speaker).style.transform = "scale(1.2)";
                     speaking = parseInt(curr_speaker);
@@ -72,11 +103,21 @@
                 }
             }
 
+            function startRec(){
+                xhr1.open('POST', URL1);
+                xhr1.send(JSON.stringify(angles[speaking-1]));
+            }
+
+            function stopRec(){
+                xhr2.open('POST', URL2);
+                xhr2.send("Data");
+            }
+
             var Position = {
                 ellipse: function(n, rx, ry, so, wh, idd, cls, cw) {
                     var m = document.createElement('div'),
                     ss = document.styleSheets;
-                    ss[0].insertRule('#' + idd + ' { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); border-radius: 50%; box-shadow: inset 0 0 ' + wh + 'px ' + wh / 4 + 'px black; background: rgba(0, 0, 0, 0.2); width: ' + String((rx * 2) + wh) + 'px; height: ' + String((ry * 2) + wh) + 'px; }', 1);
+                    ss[0].insertRule('#' + idd + ' { position: absolute; left: 50%; top: 60%; transform: translate(-50%, -50%); border-radius: 50%; box-shadow: inset 0 0 ' + wh + 'px ' + wh / 4 + 'px black; background: rgba(0, 0, 0, 0.2); width: ' + String((rx * 2) + wh) + 'px; height: ' + String((ry * 2) + wh) + 'px; }', 1);
                     ss[0].insertRule('.' + cls + '{ position: absolute; background: #4D4A4F; color: #ffffff; text-align: center; font-family: "Open Sans Condensed", sans-serif; border-radius: 50%; transition: transform 0.2s ease; font-weight: bold; width: ' + wh + 'px; height: ' + wh + 'px; line-height: ' + wh + 'px;}', 1);
                     ss[0].insertRule('.' + cls + ':hover { transform: scale(1.2); cursor: pointer; background: rgba(229, 225, 230, 0.8); color: #000000; }', 1);
                     m.id = idd;
@@ -91,7 +132,7 @@
                         c.style.left = String(rx + rx * (cw ? Math.sin((360 / n / 180) * (i + so) * Math.PI) : -Math.sin((360 / n / 180) * (i + so) * Math.PI))) + 'px';
                         m.appendChild(c);
                     }
-                    document.body.appendChild(m);
+                    document.getElementById("seating").appendChild(m);
                     document.getElementById(String(speaking)).style.background = "rgba(38, 237, 73, 0.8)";
                     document.getElementById(String(speaking)).style.color = "#000000";
                     document.getElementById(String(speaking)).style.transform = "scale(1.2)";
@@ -100,7 +141,6 @@
             }
             
             function renderPositions(count){
-                document.body.innerHTML = '<h1 style="text-align: center; color: #ffffff;">Welcome Crew!</h1><h2 style="text-align: center; color: #A8A9AD;">Speaker: <label id="currentSpeaker"></label></h2>'
                 Position.ellipse(count+1, 150, 150, 0, 42, 'main', 'circle', true);
             }
 

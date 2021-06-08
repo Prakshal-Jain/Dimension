@@ -57,23 +57,37 @@
     }
 </style>
 <div class="para" style="margin-top: 10%;">
-    <h3 class="megaHeading">Convert & merge your recordings into Spatial Audio.</h3>
-    <br/><br/><br/>
-    <h4>Enter the absolute address of audio recordings below:</h4>
-    <input type="text" id="addr" name="add" placeholder="Enter / paste address here..."><br/><br/>
-    <label class="confirm" onclick="sendAddress()">Convert&nbsp;&nbsp;<i class="fa fa-check-circle" style="font-size:30px;color:#38fd07"></i></label>
+    <h3 class="megaHeading">Settings</h3>
+    <h4 style="font-weight: bold; color: red" id="flag"></h4>
+    <br/><br/>
+    <h4>Enter your name below:</h4>
+    <input type="text" id="email" name="email" placeholder="Enter your email here..."><br/><br/>
+    <h4>Enter the path of folder you want to save files in:</h4>
+    <input type="text" id="paths" name="path" placeholder="Enter / paste address here...">
+    <br/><br/>
+    <label class="confirm" onclick="sendData()">Convert&nbsp;&nbsp;<i class="fa fa-check-circle" style="font-size:30px;color:#38fd07"></i></label>
 </div>
 
 <script>
-    const URL1 = '/get-address'
+    const URL1 = '/get-user_info';
     const xhr1 = new XMLHttpRequest();
-    function sendAddress(){
-        address = document.getElementById("addr").value;
-        if(address == ""){
-            return
+    let userData = {{ input_from_python | tojson }};
+    document.getElementById("flag").innerHTML = userData["flag"];
+    document.getElementById("email").value = userData["email"];
+    document.getElementById("paths").value = userData["dest_path"];
+    function sendData(){
+        email = document.getElementById("email").value;
+        addr = document.getElementById("paths").value;
+        if(email == "" || addr == ""){
+            alert("Please enter name and path")
         }
-        xhr1.open('POST', URL1);
-        xhr1.send(address);
+        else{
+            document.getElementById("flag").innerHTML = "";
+            userinfo = JSON.stringify({"email": email, "dest_path": addr, "flag": "", "URL_dest": userData["URL_dest"]})
+            xhr1.open('POST', URL1);
+            xhr1.send(userinfo);
+            document.location.href = userData["URL_dest"];
+        }
     }
 </script>
 {% endblock %}
