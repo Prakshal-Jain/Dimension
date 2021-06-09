@@ -14,11 +14,11 @@ def homepage():
 
 @app.route('/<name>', methods=['GET', 'POST'])
 def hello(name=None):
-    # if(userInfo["email"] == "" or userInfo["dest_path"] == ""):
-    #     userInfo["flag"] = "Please complete your profile before proceeding."
-    #     userInfo["URL_dest"] = "/"+name
-    #     return render_template('settings.html', name=name, input_from_python= userInfo)
-    # else:
+    if(userInfo["email"] == "" or userInfo["dest_path"] == ""):
+        userInfo["flag"] = "Please complete your profile before proceeding."
+        userInfo["URL_dest"] = "/"+name
+        return render_template('settings.html', name=name, input_from_python= userInfo)
+    else:
         if(name == 'sitting'):
             userInfo["flag"] = ""
             return render_template('sitting.html', name=name, input_from_python= userInfo)
@@ -43,6 +43,7 @@ def startRec():
     algorithms.generateRec.record(filename+".wav")
     return "1"
 
+
 @app.route('/get-speaker', methods=['GET', 'POST'])
 def getSpeaker():
     information = request.data.decode()
@@ -51,16 +52,19 @@ def getSpeaker():
     algorithms.generateRec.getAngle_intensity(angle)
     return "1"
 
+
 @app.route('/stop-recording', methods=['GET', 'POST'])
 def stopRec():
     algorithms.generateRec.stop()
     return "1"
+
 
 @app.route('/get-address', methods=['GET', 'POST'])
 def getAddress():
     information = request.data.decode()
     algorithms.analyseFiles.analyser(information, userInfo["dest_path"], userInfo["email"])
     return "1"
+
 
 @app.route('/get-user_info', methods=['GET', 'POST'])
 def getUserInfo():
