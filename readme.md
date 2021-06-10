@@ -14,6 +14,8 @@ A Multi-Dimentional audio production service using Amplitude Panning
 
 2. References:
     * SPATIAL SOUND GENERATION AND PERCEPTION BY AMPLITUDE PANNING TECHNIQUES (https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.205.2603&rep=rep1&type=pdf)
+    * http://users.umiacs.umd.edu/~ramani/cmsc828d_audio/
+    * https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.248.4610&rep=rep1&type=pdf
 
 3. Developer Details:
     * Name: Prakshal Jain
